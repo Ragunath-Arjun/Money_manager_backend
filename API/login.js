@@ -5,8 +5,6 @@ const jwt = require("jsonwebtoken");
 const URL = `mongodb+srv://${process.env.MONGO_USER_NAME}:${process.env.MONGO_USER_PASSWORD}@cluster0.curjvmw.mongodb.net/`;
 const bcrypt = require("bcrypt");
 
-const SECRET = "mswfnkjerxp913u5";
-
 const login = async (req, res) => {
   try {
     //Connect Mongodb
@@ -24,7 +22,7 @@ const login = async (req, res) => {
       console.log(compare)
       if (compare) {
         //Generate Token
-        const token = jwt.sign({ email: user.email }, SECRET, {
+        const token = jwt.sign({ email: user.email }, process.env.SECRET, {
           expiresIn: "15m",
         });
         console.log(token);

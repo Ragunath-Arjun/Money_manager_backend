@@ -23,4 +23,4 @@ app.post("/login",login)
 
 app.post("/expense",authenticate,expense)
 
-app.listen(8000);
+app.listen(process.env.PORT || 8000);

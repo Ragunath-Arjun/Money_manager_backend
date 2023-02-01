@@ -15,8 +15,9 @@ const authenticate = require("./API/authenticate");
 
 app.use(express.json());
 app.use(cors({
-    origin:"https://money-manager-backend-9yjg.onrender.com"}))
+    origin:"*"}))
 
+app.get("/test",(req,res)=>res.json({message:"Tested"}));
 app.post("/register",register)
 
 app.post("/login",login)

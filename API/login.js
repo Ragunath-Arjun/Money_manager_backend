@@ -23,7 +23,7 @@ const login = async (req, res) => {
       if (compare) {
         //Generate Token
         const token = jwt.sign({ email: user.email }, process.env.SECRET, {
-          expiresIn: "15m",
+          expiresIn: "20m",
         });
         console.log(token);
         res.json({ message: "email/password matches successfully", token });

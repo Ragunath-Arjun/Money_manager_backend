@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const URL = `mongodb+srv://${process.env.MONGO_USER_NAME}:${process.env.MONGO_USER_PASSWORD}@cluster0.curjvmw.mongodb.net/`;
 const bcrypt = require("bcrypt");
 
-const expense = async (req, res) => {
+const expenses = async (req, res) => {
   try {
     //Connect Mongodb
     const connection = await mongoclient.connect(URL);
@@ -15,25 +15,18 @@ const expense = async (req, res) => {
     //select collection
     const collection = await db.collection("transactions");
     //Do CRUD Operation
-    console.log(req.body);
-    const transcations = await collection.insertOne({
-      amount: req.body.amount,
-      type: req.body.type,
-      category: req.body.category,
-      date: req.body.date,
-      description: req.body.description,
-      userID: new mongodb.ObjectId(req.body.userid),
-    });
-
-    console.log(req.body.userid);
+    const transactions = await collection
+      .find({ userID: new mongodb.ObjectId(req.body.userid) })
+      .toArray();
     //close connection
     await connection.close();
+    res.json(transactions);
 
-    res.json({ message: "Transactions stored in Database" });
+    // res.json({ message: "All the transactions retrived from Database" });
   } catch (error) {
     console.log("Error", error);
     res.json({ error: "Something went wrong" });
   }
 };
 
-module.exports = expense;
+module.exports = expenses;

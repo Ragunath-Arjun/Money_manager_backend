@@ -16,13 +16,13 @@ const login = async (req, res) => {
     //Do CRUD Operation
 
     const user = await collection.findOne({ email: req.body.email });
-    console.log(user)
+    console.log(user);
     if (user) {
       const compare = await bcrypt.compare(req.body.password, user.password);
-      console.log(compare)
+      console.log(compare);
       if (compare) {
         //Generate Token
-        const token = jwt.sign({ email: user.email }, process.env.SECRET, {
+        let token = jwt.sign({ id: user._id }, process.env.SECRET, {
           expiresIn: "20m",
         });
         console.log(token);
